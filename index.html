@@ -24,14 +24,9 @@
             width: 100%;
         }
         .wishes {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: #24292e;
-            margin-bottom: 4px;
-        }
-        .date-display {
-            font-size: 14px;
-            color: #57606a;
             margin-bottom: 24px;
         }
         h3 { 
@@ -72,9 +67,8 @@
 <body>
 
 <div class="container">
-    <!-- Day, Date, and Best Wishes Section -->
-    <div class="wishes" id="wishes-display">Good Morning!</div>
-    <div class="date-display" id="date-display">Loading date...</div>
+    <!-- Clean Dynamic Greeting Section -->
+    <div class="wishes" id="wishes-display">Hello!</div>
     
     <hr style="border: 0; border-top: 1px solid #e1e4e8; margin-bottom: 20px;">
 
@@ -84,26 +78,20 @@
 </div>
 
 <script>
-    // 1. Dynamic Greeting & Date Functionality
+    // 1. Time-based Greeting Functionality
     function setupHeader() {
         const now = new Date();
-        
-        // Determine best wishes based on time of day
         const hours = now.getHours();
-        let wish = "Have a great day ahead!";
+        let wish = "Hello!";
+        
         if (hours < 12) {
-            wish = "Good Morning! Wishing you a profitable trading day! 📈";
+            wish = "Good Morning!";
         } else if (hours < 16) {
-            wish = "Good Afternoon! Hope the market is treating you well!";
+            wish = "Good Afternoon!";
         } else {
-            wish = "Good Evening! Time to review today's trades.";
+            wish = "Good Evening!";
         }
         document.getElementById('wishes-display').innerText = wish;
-
-        // Format and display current Day and Date
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = now.toLocaleDateString('en-US', options);
-        document.getElementById('date-display').innerText = formattedDate;
     }
 
     // 2. Token Extraction Functionality
@@ -135,7 +123,7 @@
         }
     }
 
-    // Run the header setup when page loads
+    // Run greeting setup when page loads
     setupHeader();
 </script>
 
