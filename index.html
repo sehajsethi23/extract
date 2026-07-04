@@ -17,49 +17,96 @@
         .container {
             background: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             text-align: center;
             max-width: 400px;
             width: 100%;
         }
-        h2 { color: #24292e; margin-bottom: 20px; }
+        .wishes {
+            font-size: 20px;
+            font-weight: 600;
+            color: #24292e;
+            margin-bottom: 4px;
+        }
+        .date-display {
+            font-size: 14px;
+            color: #57606a;
+            margin-bottom: 24px;
+        }
+        h3 { 
+            color: #24292e; 
+            margin-bottom: 10px; 
+            font-size: 16px;
+            text-align: left;
+        }
         .token-box {
             background: #f1f8ff;
             border: 1px solid #c8e1ff;
-            padding: 12px;
+            padding: 14px;
             border-radius: 6px;
             font-family: monospace;
             font-size: 16px;
             word-break: break-all;
             margin-bottom: 20px;
             color: #0366d6;
+            text-align: left;
         }
         button {
             background-color: #2ea44f;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 14px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
+            width: 100%;
         }
         button:hover { background-color: #2c974b; }
-        .error { color: #cb2431; }
+        button:active { transform: scale(0.98); }
+        .error { color: #cb2431; background: #ffeef0; border-color: #fdb8c0; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Kite Request Token</h2>
+    <!-- Day, Date, and Best Wishes Section -->
+    <div class="wishes" id="wishes-display">Good Morning!</div>
+    <div class="date-display" id="date-display">Loading date...</div>
+    
+    <hr style="border: 0; border-top: 1px solid #e1e4e8; margin-bottom: 20px;">
+
+    <h3>Kite Request Token</h3>
     <div id="token-display" class="token-box">Loading...</div>
     <button id="copy-btn" onclick="copyToken()">Copy Token</button>
 </div>
 
 <script>
-    // Extract query parameters from URL
+    // 1. Dynamic Greeting & Date Functionality
+    function setupHeader() {
+        const now = new Date();
+        
+        // Determine best wishes based on time of day
+        const hours = now.getHours();
+        let wish = "Have a great day ahead!";
+        if (hours < 12) {
+            wish = "Good Morning! Wishing you a profitable trading day! 📈";
+        } else if (hours < 16) {
+            wish = "Good Afternoon! Hope the market is treating you well!";
+        } else {
+            wish = "Good Evening! Time to review today's trades.";
+        }
+        document.getElementById('wishes-display').innerText = wish;
+
+        // Format and display current Day and Date
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = now.toLocaleDateString('en-US', options);
+        document.getElementById('date-display').innerText = formattedDate;
+    }
+
+    // 2. Token Extraction Functionality
     const urlParams = new URLSearchParams(window.location.search);
     const requestToken = urlParams.get('request_token');
     const tokenDisplay = document.getElementById('token-display');
@@ -87,6 +134,9 @@
             });
         }
     }
+
+    // Run the header setup when page loads
+    setupHeader();
 </script>
 
 </body>
